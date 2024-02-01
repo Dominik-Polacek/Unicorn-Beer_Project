@@ -44,12 +44,12 @@ public class ApiController {
         return ResponseEntity.ok(beerDTO);
     }
 
-    @DeleteMapping("/beers/delete/{id}")
+    @DeleteMapping("/beers/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         return ResponseEntity.ok(beerService.deleteById(id));
     }
 
-    @PutMapping("/beers/update/{id}")
+    @PutMapping("/beers/{id}")
     public ResponseEntity<?> update(@RequestBody BeerDTO beerDTO, @PathVariable Long id) {
         beerService.update(beerDTO, id);
         return ResponseEntity.ok(beerDTO);
