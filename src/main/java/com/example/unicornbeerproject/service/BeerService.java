@@ -20,7 +20,7 @@ public class BeerService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public void loadBeerData() {
+    public void loadData() {
         Beer[] beers = restTemplate.getForObject("https://random-data-api.com/api/v2/beers?size=100", Beer[].class);
         if (beers != null) {
             beerRepository.saveAll(Arrays.asList(beers));
@@ -31,11 +31,11 @@ public class BeerService {
         return beerRepository.findAll();
     }
 
-    public Beer findBeerById(Long id) {
+    public Beer findById(Long id) {
         return beerRepository.findById(id).orElse(null);
     }
 
-    public void saveBeer(BeerDTO beerDTO) {
+    public void save(BeerDTO beerDTO) {
         beerRepository.save(new Beer(beerDTO));
     }
 
@@ -46,5 +46,13 @@ public class BeerService {
         return optionalBeer;
     }
 
+    public void update(BeerDTO beerDTO, Long id) {
+        if (beerDTO.rating() < 0 || beerDTO.rating() > 5) {
+            throw new IllegalArgumentException("Rating must be between 0 and 5");
+        }
+        beerRepository.findById(id).ifPresent(oldBeer -> beerRepository.delete(oldBeer));
+
+        beerRepository.save(new Beer(beerDTO));
+    }
 
 }
