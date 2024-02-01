@@ -1,6 +1,7 @@
 package com.example.unicornbeerproject.service;
 
 import com.example.unicornbeerproject.dto.BeerDTO;
+import com.example.unicornbeerproject.dto.RatingDTO;
 import com.example.unicornbeerproject.model.Beer;
 import com.example.unicornbeerproject.repository.BeerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,13 +47,15 @@ public class BeerService {
         return optionalBeer;
     }
 
-    public void update(BeerDTO beerDTO, Long id) {
-        if (beerDTO.rating() < 0 || beerDTO.rating() > 5) {
+    public void updateRating(Long id, RatingDTO ratingDTO) {
+        if (ratingDTO.rating() < 0 || ratingDTO.rating() > 5) {
             throw new IllegalArgumentException("Rating must be between 0 and 5");
         }
-        beerRepository.findById(id).ifPresent(oldBeer -> beerRepository.delete(oldBeer));
-
-        beerRepository.save(new Beer(beerDTO));
+        beerRepository.findById(id).ifPresent(beer -> {
+            beer.setRating(ratingDTO.rating());
+            beer.setComment(ratingDTO.comment());
+            beerRepository.save(beer);
+        });
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.unicornbeerproject.controller;
 
 import com.example.unicornbeerproject.dto.BeerDTO;
+import com.example.unicornbeerproject.dto.RatingDTO;
 import com.example.unicornbeerproject.service.BeerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -50,9 +51,9 @@ public class ApiController {
     }
 
     @PutMapping("/beers/{id}")
-    public ResponseEntity<?> update(@RequestBody BeerDTO beerDTO, @PathVariable Long id) {
-        beerService.update(beerDTO, id);
-        return ResponseEntity.ok(beerDTO);
+    public ResponseEntity<?> updateRating(@RequestBody RatingDTO ratingDTO, @PathVariable Long id) {
+        beerService.updateRating(id, ratingDTO);
+        return ResponseEntity.ok(ratingDTO);
     }
 
 
