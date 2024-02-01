@@ -56,5 +56,4 @@ public class ApiController {
         return ResponseEntity.ok(ratingDTO);
     }
 
-
 }
