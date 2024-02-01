@@ -28,5 +28,9 @@ public class BeerService {
         return beerRepository.findAll();
     }
 
+    public Beer findBeerById(Long id) {
+        return beerRepository.findById(id).orElse(null);
+    }
+
 
 }
