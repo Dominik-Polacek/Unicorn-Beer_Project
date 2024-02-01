@@ -1,5 +1,6 @@
 package com.example.unicornbeerproject.service;
 
+import com.example.unicornbeerproject.dto.BeerDTO;
 import com.example.unicornbeerproject.model.Beer;
 import com.example.unicornbeerproject.repository.BeerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BeerService {
@@ -24,12 +26,24 @@ public class BeerService {
             beerRepository.saveAll(Arrays.asList(beers));
         }
     }
+
     public List<Beer> findAll() {
         return beerRepository.findAll();
     }
 
     public Beer findBeerById(Long id) {
         return beerRepository.findById(id).orElse(null);
+    }
+
+    public void saveBeer(BeerDTO beerDTO) {
+        beerRepository.save(new Beer(beerDTO));
+    }
+
+    public Optional<Beer> deleteById(Long id) {
+        Optional<Beer> optionalBeer = beerRepository.findById(id);
+        optionalBeer.ifPresent(beerRepository::delete);
+
+        return optionalBeer;
     }
 
 

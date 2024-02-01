@@ -5,12 +5,10 @@ import com.example.unicornbeerproject.model.Beer;
 import com.example.unicornbeerproject.service.BeerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -33,4 +31,16 @@ public class ApiController {
         BeerDTO beerDTO = new BeerDTO(beerService.findBeerById(id));
         return ResponseEntity.ok(beerDTO);
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addBeer(@RequestBody BeerDTO beerDTO) {
+        beerService.saveBeer(beerDTO);
+        return ResponseEntity.ok(beerDTO);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteBeer(@PathVariable Long id) {
+        return ResponseEntity.ok(beerService.deleteById(id));
+    }
+
 }
